@@ -42,7 +42,7 @@ export default function CopyButton({
     >
       <Copy />
       {showPopup && (
-        <div className="absolute -right-4 -top-4 rounded-xl bg-slate-800 p-2 text-slate-100">
+        <div className="absolute -right-4 -top-4 rounded-xl border border-slate-400 bg-slate-700 p-2 text-slate-100">
           Copied!
         </div>
       )}

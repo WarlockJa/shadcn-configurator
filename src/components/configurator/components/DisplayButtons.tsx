@@ -5,14 +5,27 @@ import { Button } from "@/components/ui/button";
 
 export default function DisplayButtons({ colors }: { colors: TColorsState }) {
   return (
-    <>
-      <DisplayButton colors={colors} variant="default" />
-      <DisplayButton colors={colors} variant="destructive" />
-      <DisplayButton colors={colors} variant="ghost" />
-      <DisplayButton colors={colors} variant="link" />
-      <DisplayButton colors={colors} variant="outline" />
-      <DisplayButton colors={colors} variant="secondary" />
-    </>
+    <div className="my-2 w-full rounded-lg border-4">
+      <h1
+        style={{
+          color: hslColorObjectToActualColor({
+            hslColor: colors["cardForeground"],
+          }),
+          border: hslColorObjectToActualColor({ hslColor: colors["border"] }),
+        }}
+        className="text-center text-xl"
+      >
+        Buttons
+      </h1>
+      <div className="my-2 flex flex-wrap justify-around">
+        <DisplayButton colors={colors} variant="default" />
+        <DisplayButton colors={colors} variant="destructive" />
+        <DisplayButton colors={colors} variant="ghost" />
+        <DisplayButton colors={colors} variant="link" />
+        <DisplayButton colors={colors} variant="outline" />
+        <DisplayButton colors={colors} variant="secondary" />
+      </div>
+    </div>
   );
 }
 
@@ -23,7 +36,7 @@ const DisplayButton = ({
   variant: TDefaultButtonVariants;
   colors: TColorsState;
 }) => {
-  const [hover, setHover] = useState<Boolean>(false);
+  const [hover, setHover] = useState<boolean>(false);
 
   const style = defaultButtonStyles({ colors, hover, variant });
 
@@ -45,7 +58,7 @@ const defaultButtonStyles = ({
   hover,
 }: {
   colors: TColorsState;
-  hover: Boolean;
+  hover: boolean;
   variant: TDefaultButtonVariants;
 }) => {
   switch (variant) {

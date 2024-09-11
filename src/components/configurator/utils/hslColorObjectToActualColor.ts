@@ -7,7 +7,7 @@ export default function hslColorObjectToActualColor({
 }: {
   hslColor: HslColor;
   opacity?: number;
-  exporting?: Boolean;
+  exporting?: boolean;
 }): string {
   return exporting
     ? `${hslColor.h} ${hslColor.s}% ${hslColor.l}%;`

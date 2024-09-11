@@ -4,12 +4,9 @@
 // Extending process:
 // Step 1: add new variable to global.css
 // Step 2: add camelCase code and give it actual css variable name value
-// Considerations: If default elements with default settings do not use your
-// custom variables (whcih they don't) you won't see any effect in this component
 
 import { HslColor } from "react-colorful";
 
-// unless you modify it yourself. Good luck.
 export const cssVars = {
   background: "--background",
   foreground: "--foreground",
@@ -23,13 +20,13 @@ export const cssVars = {
   secondaryForeground: "--secondary-foreground",
   accent: "--accent",
   accentForeground: "--accent-foreground",
-  muted: "--muted",
-  mutedForeground: "--muted-foreground",
   destructive: "--destructive",
   destructiveForeground: "--destructive-foreground",
-  border: "--border",
-  input: "--input",
   ring: "--ring",
+  input: "--input",
+  muted: "--muted",
+  mutedForeground: "--muted-foreground",
+  border: "--border",
 } as const;
 
 export type TCssVars = typeof cssVars;

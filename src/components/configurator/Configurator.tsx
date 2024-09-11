@@ -1,28 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useEffect, useState } from "react";
 import { HslColorPicker } from "react-colorful";
 import { cssVars, TColorsState, TComponentTypes } from "./settings";
 import hslColorObjectToActualColor from "./utils/hslColorObjectToActualColor";
-import DisplayButtons from "./components/DisplayButtons";
-import DisplayInputs from "./components/DisplayInputs";
-import DisplayColorsAsString from "./components/DisplayColorsAsString";
 import colorsInit from "./utils/colorsInit";
 import ControlButtons from "./components/ControlButtons";
-import CopyButton from "./components/CopyButtons";
+import DisplayResults from "./components/DisplayResults";
+import DisplayCard from "./components/DisplayCard";
+import DisplayPopover from "./components/DisplayPopover";
+import ColorInputs from "./components/ColorInputs";
+import {
+  TWColorPalette,
+  TWColorPalettePopup,
+} from "./components/TWColorPalette";
 
 // Export this on an empty page to get current values for shadcn/ui variables
 export default function Configurator() {
@@ -37,17 +28,41 @@ export default function Configurator() {
 
   return (
     color && (
-      <div className="max-w-screen-lg rounded-xl border-2 border-stone-500 p-8 shadow-lg shadow-slate-800">
-        <div>
-          <div className="flex flex-wrap">
-            <ControlButtons
-              colors={color.colors}
-              setActiveColor={(type) => setColor({ ...color, type })}
-            />
-          </div>
-          <div className="flex">
+      <div className="relative w-screen max-w-screen-lg rounded-xl border-2 border-stone-500 shadow-lg shadow-slate-800 md:p-2">
+        <div className="hidden xl:absolute xl:-right-80 xl:top-0 xl:block">
+          <TWColorPalette
+            setColor={(twColor) =>
+              setColor(
+                (prev) =>
+                  prev && {
+                    ...prev,
+                    colors: { ...prev.colors, [color.type]: twColor },
+                  },
+              )
+            }
+          />
+        </div>
+        <div className="hidden xl:absolute xl:-left-80 xl:top-0 xl:block">
+          <TWColorPalette
+            setColor={(twColor) =>
+              setColor(
+                (prev) =>
+                  prev && {
+                    ...prev,
+                    colors: { ...prev.colors, [color.type]: twColor },
+                  },
+              )
+            }
+          />
+        </div>
+        <div className="flex flex-col md:flex-row">
+          <ControlButtons
+            colors={color.colors}
+            setActiveColor={(type) => setColor({ ...color, type })}
+          />
+          <div className="mb-1">
             <HslColorPicker
-              className="m-4"
+              style={{ height: "300px", width: "300px" }}
               color={color.colors[color.type]}
               onChange={(hslColor) =>
                 setColor(
@@ -59,20 +74,34 @@ export default function Configurator() {
                 )
               }
             />
-            <Popover>
-              <PopoverTrigger>
-                <Button variant={"outline"}>Show CSS Variables</Button>
-              </PopoverTrigger>
-              <PopoverContent className="m-[1px] rounded-xl border bg-gradient-to-b from-slate-600 to-stone-600 p-4 text-gray-200 shadow-lg hover:m-0 hover:border-2">
-                <DisplayColorsAsString
-                  colors={color.colors}
-                  cssVars={cssVars}
-                />
-                <div className="absolute right-0 top-0">
-                  <CopyButton colors={color.colors} cssVars={cssVars} />
-                </div>
-              </PopoverContent>
-            </Popover>
+          </div>
+          <div className="flex-1">
+            <ColorInputs
+              color={color.colors[color.type]}
+              setColor={(hslColor) =>
+                setColor(
+                  (prev) =>
+                    prev && {
+                      ...prev,
+                      colors: { ...prev.colors, [color.type]: hslColor },
+                    },
+                )
+              }
+            />
+            <div className="mt-2 flex items-center justify-around rounded-lg border-2 p-4 lg:hidden">
+              <DisplayResults colors={color.colors} cssVars={cssVars} />
+              <TWColorPalettePopup
+                setColor={(twColor) =>
+                  setColor(
+                    (prev) =>
+                      prev && {
+                        ...prev,
+                        colors: { ...prev.colors, [color.type]: twColor },
+                      },
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
         <div
@@ -96,70 +125,10 @@ export default function Configurator() {
             modi deleniti magnam doloribus molestiae! Accusamus laudantium enim
             ipsa? Blanditiis, itaque voluptatum!
           </h1>
-          <Card style={defaultCardStyles({ colors: color.colors })}>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription
-                style={{
-                  color: hslColorObjectToActualColor({
-                    hslColor: color.colors["mutedForeground"],
-                  }),
-                }}
-              >
-                Card description. Lorem ipsum dolor, sit amet consectetur
-                adipisicing elit. Dolorem dignissimos porro magni natus.
-                Repellendus placeat voluptatibus natus enim omnis facere
-                repudiandae expedita recusandae! Minus aperiam laudantium, iure
-                aut earum sit?
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <DisplayButtons colors={color.colors} />
-              <DisplayInputs colors={color.colors} />
-            </CardContent>
-          </Card>
-          <Popover>
-            <PopoverTrigger
-              style={{
-                color: hslColorObjectToActualColor({
-                  hslColor: color.colors["foreground"],
-                }),
-              }}
-            >
-              Open
-            </PopoverTrigger>
-            <PopoverContent
-              style={defaultPopoverStyles({ colors: color.colors })}
-            >
-              Popover content. Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Eius eligendi ipsa amet ab qui eos numquam
-              deserunt exercitationem nam, fugit delectus perspiciatis, nostrum
-              labore officia, consequuntur praesentium atque recusandae
-              possimus?
-            </PopoverContent>
-          </Popover>
+          <DisplayCard colors={color.colors} />
+          <DisplayPopover colors={color.colors} />
         </div>
       </div>
     )
   );
 }
-
-const defaultCardStyles = ({ colors }: { colors: TColorsState }) => {
-  // bg-card text-card-foreground
-  return {
-    backgroundColor: hslColorObjectToActualColor({ hslColor: colors["card"] }),
-    color: hslColorObjectToActualColor({ hslColor: colors["cardForeground"] }),
-  };
-};
-
-const defaultPopoverStyles = ({ colors }: { colors: TColorsState }) => {
-  // bg-card text-card-foreground
-  return {
-    backgroundColor: hslColorObjectToActualColor({
-      hslColor: colors["popover"],
-    }),
-    color: hslColorObjectToActualColor({
-      hslColor: colors["popoverForeground"],
-    }),
-  };
-};

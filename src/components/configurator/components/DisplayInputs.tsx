@@ -5,11 +5,14 @@ import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 
 export default function DisplayInputs({ colors }: { colors: TColorsState }) {
   return (
-    <>
-      <DisplayInput colors={colors} />
-      <DisplayInput colors={colors} disabled />
-      <DisplayInput colors={colors} placeholder />
-    </>
+    <div className="rounded-lg border-4 p-2">
+      <h1 className="text-center text-xl">Inputs</h1>
+      <div className="my-2 flex flex-col gap-2">
+        <DisplayInput colors={colors} />
+        <DisplayInput colors={colors} disabled />
+        <DisplayInput colors={colors} placeholder />
+      </div>
+    </div>
   );
 }
 
@@ -19,10 +22,10 @@ const DisplayInput = ({
   disabled,
 }: {
   colors: TColorsState;
-  disabled?: Boolean;
-  placeholder?: Boolean;
+  disabled?: boolean;
+  placeholder?: boolean;
 }) => {
-  const [focus, setFocus] = useState<Boolean>(false);
+  const [focus, setFocus] = useState<boolean>(false);
 
   const style = defaultInputStyles({
     colors,
@@ -30,21 +33,19 @@ const DisplayInput = ({
     placeholder: Boolean(placeholder),
   });
   return (
-    <>
-      <Input
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        style={style}
-        disabled={Boolean(disabled)}
-        defaultValue={
-          Boolean(placeholder)
-            ? "Placeholder text"
-            : Boolean(disabled)
-              ? "Disabled input"
-              : "Input value"
-        }
-      />
-    </>
+    <Input
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
+      style={style}
+      disabled={Boolean(disabled)}
+      defaultValue={
+        Boolean(placeholder)
+          ? "Placeholder text"
+          : Boolean(disabled)
+            ? "Disabled input"
+            : "Input value"
+      }
+    />
   );
 };
 
@@ -54,8 +55,8 @@ const defaultInputStyles = ({
   placeholder,
 }: {
   colors: TColorsState;
-  focus: Boolean;
-  placeholder: Boolean;
+  focus: boolean;
+  placeholder: boolean;
 }) => {
   return placeholder
     ? {
