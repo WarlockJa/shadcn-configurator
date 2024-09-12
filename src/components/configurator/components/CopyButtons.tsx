@@ -27,7 +27,7 @@ export default function CopyButton({
         ),
       "",
     );
-  }, [colors]);
+  }, [colors, cssVars]);
   return (
     <Button
       variant={"ghost"}
