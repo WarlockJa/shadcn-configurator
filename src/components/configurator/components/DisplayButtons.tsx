@@ -4,6 +4,7 @@ import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import ForceSwitch from "./ForceSwitch";
 
 export default function DisplayButtons({ colors }: { colors: TColorsState }) {
   const [forceHover, setForceHover] = useState(false);
@@ -17,20 +18,16 @@ export default function DisplayButtons({ colors }: { colors: TColorsState }) {
             }),
             border: hslColorObjectToActualColor({ hslColor: colors["border"] }),
           }}
-          className="text-center text-xl"
+          className="px-2 text-xl md:text-center"
         >
           Buttons
         </h1>
-        <div className="absolute right-1 top-1 flex h-fit items-center p-0">
-          <Label htmlFor="forceHover" className="font-serif">
-            force hover&nbsp;
-          </Label>
-          <Switch
-            id="forceHover"
-            checked={forceHover}
-            onCheckedChange={() => setForceHover((prev) => !prev)}
-          />
-        </div>
+        <ForceSwitch
+          label="force hover"
+          forceState={forceHover}
+          setForceState={setForceHover}
+          style={{ top: "0px", right: "0px" }}
+        />
       </div>
       <div className="my-2 flex flex-wrap justify-around">
         <DisplayButton

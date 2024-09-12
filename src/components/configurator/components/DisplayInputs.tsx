@@ -4,23 +4,20 @@ import { Input } from "@/components/ui/input";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import ForceSwitch from "./ForceSwitch";
 
 export default function DisplayInputs({ colors }: { colors: TColorsState }) {
   const [forceFocus, setForceFocus] = useState(false);
   return (
     <div className="rounded-lg border-4 p-2">
       <div className="relative">
-        <h1 className="text-center text-xl">Inputs</h1>
-        <div className="absolute -right-1 -top-1 flex h-fit items-center p-0">
-          <Label htmlFor="forceFocus" className="font-serif">
-            force focus&nbsp;
-          </Label>
-          <Switch
-            id="forceFocus"
-            checked={forceFocus}
-            onCheckedChange={() => setForceFocus((prev) => !prev)}
-          />
-        </div>
+        <h1 className="px-2 text-xl md:text-center">Inputs</h1>
+        <ForceSwitch
+          label="force focus"
+          forceState={forceFocus}
+          setForceState={setForceFocus}
+          style={{ top: "-8px", right: "-8px" }}
+        />
       </div>
       <div className="my-2 flex flex-col gap-2">
         <DisplayInput forceFocus={forceFocus} colors={colors} />

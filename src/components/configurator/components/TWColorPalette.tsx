@@ -296,48 +296,27 @@ const TWPalette: Record<string, { [key: number]: string }> = {
   },
 } as const;
 
-export function TWColorPalettePopup({
+export default function TWColorPalette({
   setColor,
 }: {
   setColor: (twColor: HslColor) => void;
 }) {
   return (
-    <Popover>
-      <PopoverTrigger>
-        <Button variant={"outline"} className="w-full max-w-32">
-          TW Palette
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent asChild>
-        <TWColorPalette setColor={setColor} />
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-export function TWColorPalette({
-  setColor,
-}: {
-  setColor: (twColor: HslColor) => void;
-}) {
-  return (
-    <div className="rounded-xl border-2 bg-gradient-to-b from-slate-600 to-stone-600 p-2">
-      <ul className="flex flex-col gap-1">
-        {Object.keys(TWPalette).map((color) => (
-          <li key={color} className="flex gap-1">
-            {Object.entries(TWPalette[color]).map((palette) => (
-              <Button
-                size={"icon"}
-                key={palette[0]}
-                className="h-5 w-5 rounded-none border border-black"
-                onClick={() => setColor(colord(palette[1]).toHsl())}
-                title={color.concat(": ", palette[0])}
-                style={{ backgroundColor: palette[1] }}
-              ></Button>
-            ))}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="flex flex-col gap-1">
+      {Object.keys(TWPalette).map((color) => (
+        <li key={color} className="flex gap-1">
+          {Object.entries(TWPalette[color]).map((palette) => (
+            <Button
+              size={"icon"}
+              key={palette[0]}
+              className="h-5 w-5 rounded-none border border-black"
+              onClick={() => setColor(colord(palette[1]).toHsl())}
+              title={color.concat(": ", palette[0])}
+              style={{ backgroundColor: palette[1] }}
+            ></Button>
+          ))}
+        </li>
+      ))}
+    </ul>
   );
 }

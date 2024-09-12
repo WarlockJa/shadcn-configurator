@@ -32,7 +32,7 @@ export default function ColorInputs({
   }, [color]);
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg border-2 p-4 pt-0 text-primary-foreground">
+    <div className="flex flex-col gap-2 pt-0 text-primary-foreground">
       <ColorInput
         error={colorValues.hexError}
         id="hex"
@@ -95,8 +95,13 @@ const ColorInput = ({
   setColorValue: ({ color, error }: { color: string; error: boolean }) => void;
 }) => {
   return (
-    <div>
-      <Label htmlFor={id}>{label}</Label>
+    <div className="relative">
+      <Label
+        htmlFor={id}
+        className="absolute -top-2 left-3 rounded-sm bg-slate-200 px-1 text-neutral-800"
+      >
+        {label}
+      </Label>
       <Input
         type="text"
         id={id}

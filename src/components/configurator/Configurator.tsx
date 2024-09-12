@@ -5,71 +5,60 @@ import { HslColorPicker } from "react-colorful";
 import { cssVars, TColorsState, TComponentTypes } from "./settings";
 import hslColorObjectToActualColor from "./utils/hslColorObjectToActualColor";
 import colorsInit from "./utils/colorsInit";
-import ControlButtons from "./components/ControlButtons";
-import DisplayResults from "./components/DisplayResults";
+import VarsButtons from "./components/VarsButtons";
 import DisplayCard from "./components/DisplayCard";
 import DisplayPopover from "./components/DisplayPopover";
 import ColorInputs from "./components/ColorInputs";
-import {
-  TWColorPalette,
-  TWColorPalettePopup,
-} from "./components/TWColorPalette";
+import TWColorPalette from "./components/TWColorPalette";
+import PopupWrapper from "./components/PopupWrapper";
+import ActiveColorPanel from "./components/ActiveColorPanel";
+import DisplayColorsAsString from "./components/DisplayColorsAsString";
+import CopyButton from "./components/CopyButtons";
+import ImportVars from "./components/ImportVars";
 
 // Export this on an empty page to get current values for shadcn/ui variables
 export default function Configurator() {
-  const [color, setColor] = useState<{
+  const [colorState, setColorState] = useState<{
     type: TComponentTypes;
     colors: TColorsState;
   }>();
 
   useEffect(() => {
-    setColor(() => colorsInit({ cssVars }));
+    setColorState(() => colorsInit({ cssVars }));
   }, []);
 
   return (
-    color && (
+    colorState && (
       <div className="relative w-screen max-w-screen-lg rounded-xl border-2 border-stone-500 shadow-lg shadow-slate-800 md:p-2">
-        <div className="hidden xl:absolute xl:-right-80 xl:top-0 xl:block">
+        <ActiveColorPanel colorType={colorState.type} />
+        {/* <div className="hidden xl:absolute xl:-right-80 xl:top-0 xl:block">
           <TWColorPalette
             setColor={(twColor) =>
-              setColor(
+              setColorState(
                 (prev) =>
                   prev && {
                     ...prev,
-                    colors: { ...prev.colors, [color.type]: twColor },
+                    colors: { ...prev.colors, [colorState.type]: twColor },
                   },
               )
             }
           />
         </div>
-        {/* <div className="hidden xl:absolute xl:-left-80 xl:top-0 xl:block">
-          <TWColorPalette
-            setColor={(twColor) =>
-              setColor(
-                (prev) =>
-                  prev && {
-                    ...prev,
-                    colors: { ...prev.colors, [color.type]: twColor },
-                  },
-              )
-            }
-          />
-        </div> */}
         <div className="flex flex-col md:flex-row">
           <ControlButtons
-            colors={color.colors}
-            setActiveColor={(type) => setColor({ ...color, type })}
+            colors={colorState.colors}
+            setActiveColor={(type) => setColorState({ ...color, type })}
           />
           <div className="mb-1">
             <HslColorPicker
               style={{ height: "300px", width: "300px" }}
-              color={color.colors[color.type]}
+              color={colorState.colors[colorState.type]}
               onChange={(hslColor) =>
-                setColor(
+                setColorState(
                   (prev) =>
                     prev && {
                       ...prev,
-                      colors: { ...prev.colors, [color.type]: hslColor },
+                      colors: { ...prev.colors, [colorState.type]: hslColor },
                     },
                 )
               }
@@ -77,38 +66,94 @@ export default function Configurator() {
           </div>
           <div className="flex-1">
             <ColorInputs
-              color={color.colors[color.type]}
+              color={colorState.colors[colorState.type]}
               setColor={(hslColor) =>
-                setColor(
+                setColorState(
                   (prev) =>
                     prev && {
                       ...prev,
-                      colors: { ...prev.colors, [color.type]: hslColor },
+                      colors: { ...prev.colors, [colorState.type]: hslColor },
                     },
                 )
               }
             />
-            <div className="mt-2 flex items-center justify-around rounded-lg border-2 p-4 lg:hidden">
-              <DisplayResults colors={color.colors} cssVars={cssVars} />
-              <TWColorPalettePopup
-                setColor={(twColor) =>
-                  setColor(
-                    (prev) =>
-                      prev && {
-                        ...prev,
-                        colors: { ...prev.colors, [color.type]: twColor },
-                      },
-                  )
+          </div>
+        </div> */}
+        <div className="flex flex-wrap items-center justify-around border-x-2 p-4">
+          <PopupWrapper label="Import Vars">
+            <ImportVars
+              colors={colorState.colors}
+              setColors={(colors) => {
+                // console.log(colors);
+                setColorState((prev) => prev && { ...prev, colors });
+              }}
+            />
+          </PopupWrapper>
+          <PopupWrapper label="Export Vars">
+            <DisplayColorsAsString
+              colors={colorState.colors}
+              cssVars={cssVars}
+            />
+            <div className="absolute right-0 top-0">
+              <CopyButton colors={colorState.colors} cssVars={cssVars} />
+            </div>
+          </PopupWrapper>
+          <PopupWrapper label="TW Palette">
+            <TWColorPalette
+              setColor={(twColor) =>
+                setColorState(
+                  (prev) =>
+                    prev && {
+                      ...prev,
+                      colors: { ...prev.colors, [colorState.type]: twColor },
+                    },
+                )
+              }
+            />
+          </PopupWrapper>
+          <PopupWrapper label="Colors">
+            <HslColorPicker
+              color={colorState.colors[colorState.type]}
+              onChange={(hslColor) =>
+                setColorState(
+                  (prev) =>
+                    prev && {
+                      ...prev,
+                      colors: { ...prev.colors, [colorState.type]: hslColor },
+                    },
+                )
+              }
+            />
+            <ColorInputs
+              color={colorState.colors[colorState.type]}
+              setColor={(hslColor) =>
+                setColorState(
+                  (prev) =>
+                    prev && {
+                      ...prev,
+                      colors: { ...prev.colors, [colorState.type]: hslColor },
+                    },
+                )
+              }
+            />
+          </PopupWrapper>
+          <PopupWrapper label="Vars">
+            <div className="flex flex-col">
+              <VarsButtons
+                colors={colorState.colors}
+                activeColor={colorState.type}
+                setActiveColor={(type) =>
+                  setColorState({ ...colorState, type })
                 }
               />
             </div>
-          </div>
+          </PopupWrapper>
         </div>
         <div
-          className="flex w-full flex-col justify-center gap-4 border-2 p-8"
+          className="flex w-full flex-col justify-center gap-4 border-2 p-4 md:p-8"
           style={{
             backgroundColor: hslColorObjectToActualColor({
-              hslColor: color.colors["background"],
+              hslColor: colorState.colors["background"],
             }),
           }}
         >
@@ -116,7 +161,7 @@ export default function Configurator() {
             className="bold text-xl"
             style={{
               color: hslColorObjectToActualColor({
-                hslColor: color.colors["foreground"],
+                hslColor: colorState.colors["foreground"],
               }),
             }}
           >
@@ -125,8 +170,8 @@ export default function Configurator() {
             modi deleniti magnam doloribus molestiae! Accusamus laudantium enim
             ipsa? Blanditiis, itaque voluptatum!
           </h1>
-          <DisplayCard colors={color.colors} />
-          <DisplayPopover colors={color.colors} />
+          <DisplayCard colors={colorState.colors} />
+          <DisplayPopover colors={colorState.colors} />
         </div>
       </div>
     )
