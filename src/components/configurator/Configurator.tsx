@@ -42,7 +42,7 @@ export default function Configurator() {
             }
           />
         </div>
-        <div className="hidden xl:absolute xl:-left-80 xl:top-0 xl:block">
+        {/* <div className="hidden xl:absolute xl:-left-80 xl:top-0 xl:block">
           <TWColorPalette
             setColor={(twColor) =>
               setColor(
@@ -54,7 +54,7 @@ export default function Configurator() {
               )
             }
           />
-        </div>
+        </div> */}
         <div className="flex flex-col md:flex-row">
           <ControlButtons
             colors={color.colors}

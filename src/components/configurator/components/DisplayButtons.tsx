@@ -2,28 +2,63 @@ import { useState } from "react";
 import { TColorsState } from "../settings";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function DisplayButtons({ colors }: { colors: TColorsState }) {
+  const [forceHover, setForceHover] = useState(false);
   return (
     <div className="my-2 w-full rounded-lg border-4">
-      <h1
-        style={{
-          color: hslColorObjectToActualColor({
-            hslColor: colors["cardForeground"],
-          }),
-          border: hslColorObjectToActualColor({ hslColor: colors["border"] }),
-        }}
-        className="text-center text-xl"
-      >
-        Buttons
-      </h1>
+      <div className="relative">
+        <h1
+          style={{
+            color: hslColorObjectToActualColor({
+              hslColor: colors["cardForeground"],
+            }),
+            border: hslColorObjectToActualColor({ hslColor: colors["border"] }),
+          }}
+          className="text-center text-xl"
+        >
+          Buttons
+        </h1>
+        <div className="absolute right-1 top-1 flex h-fit items-center p-0">
+          <Label htmlFor="forceHover" className="font-serif">
+            force hover&nbsp;
+          </Label>
+          <Switch
+            id="forceHover"
+            checked={forceHover}
+            onCheckedChange={() => setForceHover((prev) => !prev)}
+          />
+        </div>
+      </div>
       <div className="my-2 flex flex-wrap justify-around">
-        <DisplayButton colors={colors} variant="default" />
-        <DisplayButton colors={colors} variant="destructive" />
-        <DisplayButton colors={colors} variant="ghost" />
-        <DisplayButton colors={colors} variant="link" />
-        <DisplayButton colors={colors} variant="outline" />
-        <DisplayButton colors={colors} variant="secondary" />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={colors}
+          variant="default"
+        />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={colors}
+          variant="destructive"
+        />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={colors}
+          variant="ghost"
+        />
+        <DisplayButton forceHover={forceHover} colors={colors} variant="link" />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={colors}
+          variant="outline"
+        />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={colors}
+          variant="secondary"
+        />
       </div>
     </div>
   );
@@ -32,13 +67,19 @@ export default function DisplayButtons({ colors }: { colors: TColorsState }) {
 const DisplayButton = ({
   variant,
   colors,
+  forceHover,
 }: {
   variant: TDefaultButtonVariants;
   colors: TColorsState;
+  forceHover: boolean;
 }) => {
   const [hover, setHover] = useState<boolean>(false);
 
-  const style = defaultButtonStyles({ colors, hover, variant });
+  const style = defaultButtonStyles({
+    colors,
+    hover: forceHover ? forceHover : hover,
+    variant,
+  });
 
   return (
     <Button
@@ -164,6 +205,8 @@ const defaultButtonStyles = ({
       return hover
         ? {
             color: hslColorObjectToActualColor({ hslColor: colors["primary"] }),
+            textDecoration: "underline",
+            textUnderlineOffset: "4px",
           }
         : {
             color: hslColorObjectToActualColor({ hslColor: colors["primary"] }),

@@ -2,15 +2,30 @@ import { useState } from "react";
 import { TColorsState } from "../settings";
 import { Input } from "@/components/ui/input";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 export default function DisplayInputs({ colors }: { colors: TColorsState }) {
+  const [forceFocus, setForceFocus] = useState(false);
   return (
     <div className="rounded-lg border-4 p-2">
-      <h1 className="text-center text-xl">Inputs</h1>
+      <div className="relative">
+        <h1 className="text-center text-xl">Inputs</h1>
+        <div className="absolute -right-1 -top-1 flex h-fit items-center p-0">
+          <Label htmlFor="forceFocus" className="font-serif">
+            force focus&nbsp;
+          </Label>
+          <Switch
+            id="forceFocus"
+            checked={forceFocus}
+            onCheckedChange={() => setForceFocus((prev) => !prev)}
+          />
+        </div>
+      </div>
       <div className="my-2 flex flex-col gap-2">
-        <DisplayInput colors={colors} />
-        <DisplayInput colors={colors} disabled />
-        <DisplayInput colors={colors} placeholder />
+        <DisplayInput forceFocus={forceFocus} colors={colors} />
+        <DisplayInput forceFocus={forceFocus} colors={colors} disabled />
+        <DisplayInput forceFocus={forceFocus} colors={colors} placeholder />
       </div>
     </div>
   );
@@ -20,17 +35,20 @@ const DisplayInput = ({
   colors,
   placeholder,
   disabled,
+  forceFocus,
 }: {
   colors: TColorsState;
   disabled?: boolean;
   placeholder?: boolean;
+  forceFocus: boolean;
 }) => {
   const [focus, setFocus] = useState<boolean>(false);
 
   const style = defaultInputStyles({
     colors,
-    focus,
+    focus: forceFocus ? forceFocus : focus,
     placeholder: Boolean(placeholder),
+    disabled: Boolean(disabled),
   });
   return (
     <Input
@@ -38,6 +56,7 @@ const DisplayInput = ({
       onBlur={() => setFocus(false)}
       style={style}
       disabled={Boolean(disabled)}
+      className="shadow-sm focus-visible:outline-none focus-visible:ring-0"
       defaultValue={
         Boolean(placeholder)
           ? "Placeholder text"
@@ -53,38 +72,41 @@ const defaultInputStyles = ({
   colors,
   focus,
   placeholder,
+  disabled,
 }: {
   colors: TColorsState;
   focus: boolean;
   placeholder: boolean;
+  disabled: boolean;
 }) => {
-  return placeholder
-    ? {
-        border: `1px solid ${hslColorObjectToActualColor({
-          hslColor: colors["input"],
-        })}`,
-        color: hslColorObjectToActualColor({
-          hslColor: colors["mutedForeground"],
-        }),
-        backgroundColor: "transparent",
-        opacity: 1,
-      }
-    : focus
-      ? {
-          border: `1px solid ${hslColorObjectToActualColor({
-            hslColor: colors["input"],
-          })}`,
-          backgroundColor: "transparent",
-          outline: "2px solid transparent",
-          outlineOffset: "2px",
-          "--tw-ring-color": hslColorObjectToActualColor({
-            hslColor: colors["ring"],
-          }),
-        }
-      : {
-          border: `1px solid ${hslColorObjectToActualColor({
-            hslColor: colors["input"],
-          })}`,
-          backgroundColor: "transparent",
-        };
+  // border-input bg-transparent placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50
+  const style: React.CSSProperties = {
+    border: `1px solid ${hslColorObjectToActualColor({
+      hslColor: colors["input"],
+    })}`,
+    backgroundColor: "transparent",
+  };
+
+  if (placeholder) {
+    style["color"] = hslColorObjectToActualColor({
+      hslColor: colors["mutedForeground"],
+    });
+  }
+
+  if (disabled) {
+    return style;
+  }
+
+  if (focus) {
+    style["outline"] = "2px solid transparent";
+    style["outlineOffset"] = "2px";
+    style["border"] = `1px solid ${hslColorObjectToActualColor({
+      hslColor: colors["ring"],
+    })}`;
+    style["boxShadow"] = `0 0 0 1px  ${hslColorObjectToActualColor({
+      hslColor: colors["ring"],
+    })}`;
+  }
+
+  return style;
 };
