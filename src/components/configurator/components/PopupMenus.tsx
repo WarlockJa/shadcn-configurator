@@ -6,7 +6,6 @@ import TWColorPalette from "./TWColorPalette";
 import ColorInputs from "./ColorInputs";
 import VarsButtons from "./VarsButtons";
 import { IColorState, TCssVars } from "../settings";
-import { Dispatch, SetStateAction } from "react";
 import DisplayColorsAsString from "./DisplayColorsAsString";
 
 export default function PopupMenus({
@@ -15,7 +14,7 @@ export default function PopupMenus({
   cssVars,
 }: {
   colorState: IColorState;
-  setColorState: Dispatch<SetStateAction<IColorState | undefined>>;
+  setColorState: (newColorState: IColorState) => void;
   cssVars: TCssVars;
 }) {
   return (
@@ -23,9 +22,7 @@ export default function PopupMenus({
       <PopupWrapper label="Import Vars">
         <ImportVars
           colors={colorState.colors}
-          setColors={(colors) =>
-            setColorState((prev) => prev && { ...prev, colors })
-          }
+          setColors={(colors) => setColorState({ ...colorState, colors })}
           cssVars={cssVars}
         />
       </PopupWrapper>
@@ -38,13 +35,10 @@ export default function PopupMenus({
       <PopupWrapper label="TW Palette">
         <TWColorPalette
           setColor={(twColor) =>
-            setColorState(
-              (prev) =>
-                prev && {
-                  ...prev,
-                  colors: { ...prev.colors, [colorState.type]: twColor },
-                },
-            )
+            setColorState({
+              ...colorState,
+              colors: { ...colorState.colors, [colorState.type]: twColor },
+            })
           }
         />
       </PopupWrapper>
@@ -52,25 +46,19 @@ export default function PopupMenus({
         <HslColorPicker
           color={colorState.colors[colorState.type]}
           onChange={(hslColor) =>
-            setColorState(
-              (prev) =>
-                prev && {
-                  ...prev,
-                  colors: { ...prev.colors, [colorState.type]: hslColor },
-                },
-            )
+            setColorState({
+              ...colorState,
+              colors: { ...colorState.colors, [colorState.type]: hslColor },
+            })
           }
         />
         <ColorInputs
           color={colorState.colors[colorState.type]}
           setColor={(hslColor) =>
-            setColorState(
-              (prev) =>
-                prev && {
-                  ...prev,
-                  colors: { ...prev.colors, [colorState.type]: hslColor },
-                },
-            )
+            setColorState({
+              ...colorState,
+              colors: { ...colorState.colors, [colorState.type]: hslColor },
+            })
           }
         />
       </PopupWrapper>

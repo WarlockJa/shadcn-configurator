@@ -5,12 +5,17 @@ import { cssVars, IColorState } from "./settings";
 import colorsInit from "./utils/colorsInit";
 import WideScreenSpread from "./components/WideScreenSpread";
 import MainDisplay from "./components/MainDisplay";
+import {
+  getLocalStorageData,
+  setLocalStorageData,
+} from "@/lib/local-storage/utils";
 
 export default function Configurator() {
   const [colorState, setColorState] = useState<IColorState>();
 
   useEffect(() => {
-    setColorState(() => colorsInit({ cssVars }));
+    const data = getLocalStorageData();
+    setColorState(() => (data ? data : colorsInit({ cssVars })));
   }, []);
 
   return (
@@ -20,14 +25,20 @@ export default function Configurator() {
           <WideScreenSpread
             colorState={colorState}
             cssVars={cssVars}
-            setColorState={setColorState}
+            setColorState={(newColorState) => {
+              setLocalStorageData(newColorState);
+              setColorState(newColorState);
+            }}
           />
         </div>
         <div className="2xl:hidden">
           <MainDisplay
             colorState={colorState}
             cssVars={cssVars}
-            setColorState={setColorState}
+            setColorState={(newColorState) => {
+              setLocalStorageData(newColorState);
+              setColorState(newColorState);
+            }}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { IColorState, TCssVars } from "../settings";
 import PopupWrapper from "./PopupWrapper";
 import ImportVars from "./ImportVars";
@@ -16,7 +16,7 @@ export default function WideScreenSpread({
   cssVars,
 }: {
   colorState: IColorState;
-  setColorState: Dispatch<SetStateAction<IColorState | undefined>>;
+  setColorState: (newColorState: IColorState) => void;
   cssVars: TCssVars;
 }) {
   return (
@@ -36,25 +36,19 @@ export default function WideScreenSpread({
           color={colorState.colors[colorState.type]}
           style={{ width: "300px", height: "300px", marginBottom: "1em" }}
           onChange={(hslColor) =>
-            setColorState(
-              (prev) =>
-                prev && {
-                  ...prev,
-                  colors: { ...prev.colors, [colorState.type]: hslColor },
-                },
-            )
+            setColorState({
+              ...colorState,
+              colors: { ...colorState.colors, [colorState.type]: hslColor },
+            })
           }
         />
         <ColorInputs
           color={colorState.colors[colorState.type]}
           setColor={(hslColor) =>
-            setColorState(
-              (prev) =>
-                prev && {
-                  ...prev,
-                  colors: { ...prev.colors, [colorState.type]: hslColor },
-                },
-            )
+            setColorState({
+              ...colorState,
+              colors: { ...colorState.colors, [colorState.type]: hslColor },
+            })
           }
         />
       </FloatingWrapper>
@@ -63,9 +57,7 @@ export default function WideScreenSpread({
           <PopupWrapper label="Import Vars">
             <ImportVars
               colors={colorState.colors}
-              setColors={(colors) =>
-                setColorState((prev) => prev && { ...prev, colors })
-              }
+              setColors={(colors) => setColorState({ ...colorState, colors })}
               cssVars={cssVars}
             />
           </PopupWrapper>

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { IColorState, TCssVars } from "../settings";
 import ActiveColorPanel from "./ActiveColorPanel";
 import PopupMenus from "./PopupMenus";
@@ -12,7 +12,7 @@ export default function MainDisplay({
   cssVars,
 }: {
   colorState: IColorState;
-  setColorState: Dispatch<SetStateAction<IColorState | undefined>>;
+  setColorState: (newColorState: IColorState) => void;
   cssVars: TCssVars;
 }) {
   return (
