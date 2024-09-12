@@ -9,7 +9,7 @@ export default function generateColors({
   style: CSSStyleDeclaration;
   cssVars: TCssVars;
 }): TColorsState {
-  // @ts-ignore I fought TS and the TS won
+  // @ts-expect-error I fought TS and the TS won
   const result: TColorsState = {};
   Object.entries(cssVars).forEach(
     (cssVar) =>

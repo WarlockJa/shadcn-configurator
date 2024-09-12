@@ -1,9 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { colord } from "colord";
 import { HslColor } from "react-colorful";
 

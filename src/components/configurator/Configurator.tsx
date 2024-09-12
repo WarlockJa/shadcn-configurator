@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cssVars, IColorState } from "./settings";
-import hslColorObjectToActualColor from "./utils/hslColorObjectToActualColor";
 import colorsInit from "./utils/colorsInit";
-import DisplayCard from "./components/DisplayCard";
-import DisplayPopover from "./components/DisplayPopover";
-import ActiveColorPanel from "./components/ActiveColorPanel";
-import PopupMenus from "./components/PopupMenus";
 import WideScreenSpread from "./components/WideScreenSpread";
 import MainDisplay from "./components/MainDisplay";
 
