@@ -9,7 +9,6 @@ export const getLocalStorageData = (): IColorState | null => {
       // @ts-expect-error localStorage value may be not an object
       JSON.parse(localStorage.getItem(localStorageItem)),
     );
-    console.log("DATA:", data);
     return data;
   } catch (error) {
     return null;

@@ -18,7 +18,7 @@ export default function MainDisplay({
   return (
     <div className="h-full max-w-screen-lg rounded-xl border-2 border-stone-500 shadow-lg shadow-slate-800 md:p-2">
       <ActiveColorPanel colorType={colorState.type} cssVars={cssVars} />
-      <div className="flex flex-wrap items-center justify-around border-x-2 p-4">
+      <div className="flex flex-wrap items-center justify-around border-x-2 p-4 2xl:hidden">
         <PopupMenus
           colorState={colorState}
           cssVars={cssVars}
