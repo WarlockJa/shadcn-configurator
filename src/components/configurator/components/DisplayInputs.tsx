@@ -2,8 +2,6 @@ import { useState } from "react";
 import { TColorsState } from "../settings";
 import { Input } from "@/components/ui/input";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import ForceSwitch from "./ForceSwitch";
 
 export default function DisplayInputs({ colors }: { colors: TColorsState }) {

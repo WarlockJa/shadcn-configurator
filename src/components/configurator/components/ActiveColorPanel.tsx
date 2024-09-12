@@ -1,10 +1,12 @@
 import { Label } from "@/components/ui/label";
-import { cssVars, TComponentTypes } from "../settings";
+import { TComponentTypes, TCssVars } from "../settings";
 
 export default function ActiveColorPanel({
   colorType,
+  cssVars,
 }: {
   colorType: TComponentTypes;
+  cssVars: TCssVars;
 }) {
   return (
     <Label className="flex justify-center rounded-t-lg border-2 p-2 text-xl text-slate-200">

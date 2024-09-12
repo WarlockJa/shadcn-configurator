@@ -32,3 +32,7 @@ export const cssVars = {
 export type TCssVars = typeof cssVars;
 export type TComponentTypes = keyof typeof cssVars;
 export type TColorsState = { [key in TComponentTypes]: HslColor };
+export interface IColorState {
+  type: TComponentTypes;
+  colors: TColorsState;
+}

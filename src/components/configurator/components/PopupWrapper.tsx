@@ -16,7 +16,7 @@ export default function PopupWrapper({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"outline"} className="w-full max-w-32">
+        <Button className="w-full max-w-32 border border-slate-700 bg-gradient-to-br from-stone-600 to-slate-500 shadow-sm transition-shadow hover:shadow-lg">
           {label}
         </Button>
       </PopoverTrigger>

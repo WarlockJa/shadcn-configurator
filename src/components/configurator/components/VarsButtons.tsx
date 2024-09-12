@@ -1,4 +1,4 @@
-import { cssVars, TColorsState, TComponentTypes } from "../settings";
+import { TColorsState, TComponentTypes, TCssVars } from "../settings";
 import { Button } from "@/components/ui/button";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 
@@ -6,10 +6,12 @@ export default function VarsButtons({
   colors,
   setActiveColor,
   activeColor,
+  cssVars,
 }: {
   colors: TColorsState;
   setActiveColor: (type: TComponentTypes) => void;
   activeColor: TComponentTypes;
+  cssVars: TCssVars;
 }) {
   return (
     <>
@@ -21,16 +23,18 @@ export default function VarsButtons({
             backgroundColor: hslColorObjectToActualColor({
               hslColor: item[1],
             }),
-            // outline: activeColor === item[0] ? "2px solid #e1e7ef" : undefined,
-            outlineOffset: "2px",
-            boxShadow:
-              activeColor === item[0] ? "-8px 0 8px 4px #e1e7ef" : undefined,
           }}
           onClick={() => setActiveColor(item[0] as TComponentTypes)}
         >
-          <div className="rounded border bg-stone-800 px-1 text-slate-100">
-            {cssVars[item[0] as TComponentTypes]}
-          </div>
+          <>
+            <div
+              className="absolute bottom-0 left-0 top-0 hidden w-2 bg-gradient-to-b from-amber-400 to-rose-400"
+              style={activeColor === item[0] ? { display: "block" } : undefined}
+            ></div>
+            <div className="rounded border bg-stone-800 px-1 text-slate-100">
+              {cssVars[item[0] as TComponentTypes]}
+            </div>
+          </>
         </Button>
       ))}
     </>

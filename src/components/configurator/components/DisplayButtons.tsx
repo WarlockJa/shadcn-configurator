@@ -2,8 +2,6 @@ import { useState } from "react";
 import { TColorsState } from "../settings";
 import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import ForceSwitch from "./ForceSwitch";
 
 export default function DisplayButtons({ colors }: { colors: TColorsState }) {
