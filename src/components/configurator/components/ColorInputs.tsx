@@ -115,20 +115,19 @@ const ColorInput = ({
               }
             : undefined
         }
-        onChange={(e) =>
-          colord(e.currentTarget.value).isValid()
-            ? setColorValue({
-                color: e.target.value,
-                error: false,
-              })
-            : setColorValue({
-                error: true,
-                color: e.target.value,
-              })
-        }
-        onKeyDown={(e) => {
-          if (e.code === "Enter" && !error) {
+        onChange={(e) => {
+          if (colord(e.currentTarget.value).isValid()) {
+            setColorValue({
+              color: e.target.value,
+              error: false,
+            });
+
             setColor(colord(e.currentTarget.value).toHsl());
+          } else {
+            setColorValue({
+              error: true,
+              color: e.target.value,
+            });
           }
         }}
       />
