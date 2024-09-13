@@ -1,7 +1,9 @@
+"use client";
+
 import { TColorsState, TComponentTypes, TCssVars } from "../settings";
 import generateColors from "./generateColors";
 
-export default function colorsInit({ cssVars }: { cssVars: TCssVars }): {
+export default function configuratorInit({ cssVars }: { cssVars: TCssVars }): {
   type: TComponentTypes;
   colors: TColorsState;
 } {

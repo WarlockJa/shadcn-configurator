@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { TColorsState } from "../settings";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import { TColorsState } from "../../settings";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
 import { Button } from "@/components/ui/button";
 import ForceSwitch from "./ForceSwitch";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
 
-export default function DisplayButtons({ colors }: { colors: TColorsState }) {
+export default function DisplayButtons() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
+  // local state switch to force Buttons display onHover css
   const [forceHover, setForceHover] = useState(false);
   return (
     <div className="my-2 w-full rounded-lg border-4">
@@ -12,9 +17,11 @@ export default function DisplayButtons({ colors }: { colors: TColorsState }) {
         <h1
           style={{
             color: hslColorObjectToActualColor({
-              hslColor: colors["cardForeground"],
+              hslColor: sandboxColors["cardForeground"],
             }),
-            border: hslColorObjectToActualColor({ hslColor: colors["border"] }),
+            border: hslColorObjectToActualColor({
+              hslColor: sandboxColors["border"],
+            }),
           }}
           className="px-2 text-xl md:text-center"
         >
@@ -23,35 +30,39 @@ export default function DisplayButtons({ colors }: { colors: TColorsState }) {
         <ForceSwitch
           label="force hover"
           forceState={forceHover}
-          setForceState={setForceHover}
+          setForceState={(e: boolean) => setForceHover(e)}
           style={{ top: "0px", right: "0px" }}
         />
       </div>
       <div className="my-2 flex flex-wrap justify-around">
         <DisplayButton
           forceHover={forceHover}
-          colors={colors}
+          colors={sandboxColors}
           variant="default"
         />
         <DisplayButton
           forceHover={forceHover}
-          colors={colors}
+          colors={sandboxColors}
           variant="destructive"
         />
         <DisplayButton
           forceHover={forceHover}
-          colors={colors}
+          colors={sandboxColors}
           variant="ghost"
         />
-        <DisplayButton forceHover={forceHover} colors={colors} variant="link" />
         <DisplayButton
           forceHover={forceHover}
-          colors={colors}
+          colors={sandboxColors}
+          variant="link"
+        />
+        <DisplayButton
+          forceHover={forceHover}
+          colors={sandboxColors}
           variant="outline"
         />
         <DisplayButton
           forceHover={forceHover}
-          colors={colors}
+          colors={sandboxColors}
           variant="secondary"
         />
       </div>

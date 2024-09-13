@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { TColorsState } from "../settings";
+import { TColorsState } from "../../settings";
 import { Input } from "@/components/ui/input";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
 import ForceSwitch from "./ForceSwitch";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
 
-export default function DisplayInputs({ colors }: { colors: TColorsState }) {
+export default function DisplayInputs() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
+  // local state switch to force Inputs display onHover css
   const [forceFocus, setForceFocus] = useState(false);
   return (
     <div className="rounded-lg border-4 p-2">
@@ -18,9 +23,13 @@ export default function DisplayInputs({ colors }: { colors: TColorsState }) {
         />
       </div>
       <div className="my-2 flex flex-col gap-2">
-        <DisplayInput forceFocus={forceFocus} colors={colors} />
-        <DisplayInput forceFocus={forceFocus} colors={colors} disabled />
-        <DisplayInput forceFocus={forceFocus} colors={colors} placeholder />
+        <DisplayInput forceFocus={forceFocus} colors={sandboxColors} />
+        <DisplayInput forceFocus={forceFocus} colors={sandboxColors} disabled />
+        <DisplayInput
+          forceFocus={forceFocus}
+          colors={sandboxColors}
+          placeholder
+        />
       </div>
     </div>
   );

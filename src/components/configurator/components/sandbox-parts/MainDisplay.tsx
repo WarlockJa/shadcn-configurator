@@ -1,35 +1,33 @@
 import React from "react";
-import { IColorState, TCssVars } from "../settings";
-import ActiveColorPanel from "./ActiveColorPanel";
-import PopupMenus from "./PopupMenus";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import ActiveColorPanel from "../primitives/ActiveColorPanel";
+import PopupMenus from "../PopupMenus";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
 import DisplayCard from "./DisplayCard";
 import DisplayPopover from "./DisplayPopover";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
+import Palette from "../primitives/Palette";
 
-export default function MainDisplay({
-  colorState,
-  setColorState,
-  cssVars,
-}: {
-  colorState: IColorState;
-  setColorState: (newColorState: IColorState) => void;
-  cssVars: TCssVars;
-}) {
+export default function MainDisplay() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
+
   return (
     <div className="h-full max-w-screen-lg rounded-xl border-2 border-stone-500 shadow-lg shadow-slate-800 md:p-2">
-      <ActiveColorPanel colorType={colorState.type} cssVars={cssVars} />
+      <div className="flex flex-col items-center justify-around rounded-t-lg border-2 md:flex-row">
+        <ActiveColorPanel />
+        <div className="pb-1 2xl:hidden">
+          <Palette />
+        </div>
+      </div>
       <div className="flex flex-wrap items-center justify-around border-x-2 p-4 2xl:hidden">
-        <PopupMenus
-          colorState={colorState}
-          cssVars={cssVars}
-          setColorState={setColorState}
-        />
+        <PopupMenus />
       </div>
       <div
         className="flex w-full flex-col justify-center gap-4 border-2 p-4 md:p-8"
         style={{
           backgroundColor: hslColorObjectToActualColor({
-            hslColor: colorState.colors["background"],
+            hslColor: sandboxColors["background"],
           }),
         }}
       >
@@ -37,7 +35,7 @@ export default function MainDisplay({
           className="bold text-xl"
           style={{
             color: hslColorObjectToActualColor({
-              hslColor: colorState.colors["foreground"],
+              hslColor: sandboxColors["foreground"],
             }),
           }}
         >
@@ -46,8 +44,8 @@ export default function MainDisplay({
           deleniti magnam doloribus molestiae! Accusamus laudantium enim ipsa?
           Blanditiis, itaque voluptatum!
         </h1>
-        <DisplayCard colors={colorState.colors} />
-        <DisplayPopover colors={colorState.colors} />
+        <DisplayCard />
+        <DisplayPopover />
       </div>
     </div>
   );

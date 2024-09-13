@@ -6,35 +6,11 @@ import { Mail } from "lucide-react";
 import FeedbackForm from "../feedback/FeedbackForm";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
-// // attaching SheetClose to menu items
-// const SheetMenuItem = ({
-//   withSheetClose,
-//   children,
-// }: {
-//   withSheetClose?: boolean;
-//   children: ReactNode;
-// }) => {
-//   const [SheetCloseWrapper, sheetCloseWrapperProps] = withSheetClose
-//     ? [SheetClose, { asChild: true }]
-//     : [React.Fragment, undefined];
-//   return (
-//     <div className="hover:bg-accent">
-//       <SheetCloseWrapper {...sheetCloseWrapperProps}>
-//         {children}
-//       </SheetCloseWrapper>
-//     </div>
-//   );
-// };
-
-// const PopoverWithCloseWrapper = ({children}:{children: ReactNode}) => {
-//   const [PopoverCloseWrapper] = [PopoverClose]
-// }
-
 export default function InfoPanel() {
   return (
     <div className="flex w-full flex-col items-center justify-between bg-gradient-to-r from-slate-600 to-cyan-950 p-4 md:flex-row">
       <h1 className="font-mono text-3xl text-slate-200">shadcn-config</h1>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center md:gap-2">
         <Popover>
           <PopoverTrigger asChild>
             <Button variant={"link"} className="text-slate-200">

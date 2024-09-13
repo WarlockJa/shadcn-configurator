@@ -1,5 +1,5 @@
 import React from "react";
-import { TColorsState } from "../settings";
+import { TColorsState } from "../../settings";
 import {
   Card,
   CardContent,
@@ -7,19 +7,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
 import DisplayButtons from "./DisplayButtons";
 import DisplayInputs from "./DisplayInputs";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
 
-export default function DisplayCard({ colors }: { colors: TColorsState }) {
+export default function DisplayCard() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
   return (
-    <Card style={defaultCardStyles({ colors })}>
+    <Card style={defaultCardStyles({ colors: sandboxColors })}>
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
         <CardDescription
           style={{
             color: hslColorObjectToActualColor({
-              hslColor: colors["mutedForeground"],
+              hslColor: sandboxColors["mutedForeground"],
             }),
           }}
         >
@@ -30,8 +34,8 @@ export default function DisplayCard({ colors }: { colors: TColorsState }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <DisplayButtons colors={colors} />
-        <DisplayInputs colors={colors} />
+        <DisplayButtons />
+        <DisplayInputs />
       </CardContent>
     </Card>
   );

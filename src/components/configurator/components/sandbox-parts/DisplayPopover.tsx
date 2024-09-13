@@ -3,22 +3,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
-import { TColorsState } from "../settings";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
+import { TColorsState } from "../../settings";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
 
-export default function DisplayPopover({ colors }: { colors: TColorsState }) {
+export default function DisplayPopover() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
   return (
     <Popover>
       <PopoverTrigger
         style={{
           color: hslColorObjectToActualColor({
-            hslColor: colors["foreground"],
+            hslColor: sandboxColors["foreground"],
           }),
         }}
       >
         Open Popover
       </PopoverTrigger>
-      <PopoverContent style={defaultPopoverStyles({ colors: colors })}>
+      <PopoverContent style={defaultPopoverStyles({ colors: sandboxColors })}>
         Popover content. Lorem ipsum dolor sit amet consectetur adipisicing
         elit. Eius eligendi ipsa amet ab qui eos numquam deserunt exercitationem
         nam, fugit delectus perspiciatis, nostrum labore officia, consequuntur

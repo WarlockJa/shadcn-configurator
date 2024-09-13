@@ -1,20 +1,20 @@
 import { useMemo, useState } from "react";
-import { TColorsState, TComponentTypes, TCssVars } from "../settings";
-import hslColorObjectToActualColor from "../utils/hslColorObjectToActualColor";
+import { cssVars, TComponentTypes } from "../../settings";
+import hslColorObjectToActualColor from "../../utils/hslColorObjectToActualColor";
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
+import { useAtomValue } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
 
-export default function CopyButton({
-  colors,
-  cssVars,
-}: {
-  colors: TColorsState;
-  cssVars: TCssVars;
-}) {
+export default function CopyButton() {
+  // accessing store data
+  const sandboxColors = useAtomValue(sandboxColorsAtom);
+
+  // local state for "copied" popup show/hide
   const [showPopup, setShowPopup] = useState(false);
 
   const text = useMemo(() => {
-    return Object.entries(colors).reduce(
+    return Object.entries(sandboxColors).reduce(
       (result, current) =>
         result.concat(
           cssVars[current[0] as TComponentTypes],
@@ -27,7 +27,7 @@ export default function CopyButton({
         ),
       "",
     );
-  }, [colors, cssVars]);
+  }, [sandboxColors]);
   return (
     <Button
       variant={"ghost"}

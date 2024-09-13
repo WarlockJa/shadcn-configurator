@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
+import {
+  paletteActiveColorAtom,
+  paletteColorsAtom,
+  sandboxActiveTypeAtom,
+  sandboxColorsAtom,
+} from "@/store/jotai";
 import { colord } from "colord";
-import { HslColor } from "react-colorful";
+import { useAtom, useAtomValue } from "jotai";
 
 const TWPalette: Record<string, { [key: number]: string }> = {
   Slate: {
@@ -291,23 +297,40 @@ const TWPalette: Record<string, { [key: number]: string }> = {
   },
 } as const;
 
-export default function TWColorPalette({
-  setColor,
-}: {
-  setColor: (twColor: HslColor) => void;
-}) {
+export default function TWColorPalette() {
+  // accessing store data
+  const [sandboxColors, setSandboxColors] = useAtom(sandboxColorsAtom);
+  const sandboxActiveType = useAtomValue(sandboxActiveTypeAtom);
+  const [paletteColors, setPaletteColors] = useAtom(paletteColorsAtom);
+  const paletteActiveColor = useAtomValue(paletteActiveColorAtom);
+
   return (
     <ul className="flex flex-col gap-1">
       {Object.keys(TWPalette).map((color) => (
         <li key={color} className="flex gap-1">
-          {Object.entries(TWPalette[color]).map((palette) => (
+          {Object.entries(TWPalette[color]).map((item) => (
             <Button
               size={"icon"}
-              key={palette[0]}
+              key={item[0]}
               className="h-5 w-5 rounded-none border border-black"
-              onClick={() => setColor(colord(palette[1]).toHsl())}
-              title={color.concat(": ", palette[0])}
-              style={{ backgroundColor: palette[1] }}
+              onClick={() => {
+                // updatig store color for the shadcn/ui variable to be used in sandbox
+                setSandboxColors({
+                  ...sandboxColors,
+                  [sandboxActiveType]: colord(item[1]).toHsl(),
+                });
+                // updating palette active color
+                setPaletteColors(
+                  paletteColors
+                    .slice(0, paletteActiveColor)
+                    .concat(
+                      colord(item[1]).toHsl(),
+                      paletteColors.slice(paletteActiveColor + 1),
+                    ),
+                );
+              }}
+              title={color.concat(": ", item[0])}
+              style={{ backgroundColor: item[1] }}
             ></Button>
           ))}
         </li>

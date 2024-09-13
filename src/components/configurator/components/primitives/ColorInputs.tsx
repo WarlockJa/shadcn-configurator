@@ -1,20 +1,28 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  paletteActiveColorAtom,
+  paletteColorsAtom,
+  sandboxActiveTypeAtom,
+  sandboxColorsAtom,
+} from "@/store/jotai";
 import { colord } from "colord";
+import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { HslColor } from "react-colorful";
 
-export default function ColorInputs({
-  color,
-  setColor,
-}: {
-  color: HslColor;
-  setColor: (hslColor: HslColor) => void;
-}) {
+export default function ColorInputs() {
+  // accessing store data
+  const [sandboxColors, setSandboxColors] = useAtom(sandboxColorsAtom);
+  const sandboxActiveType = useAtomValue(sandboxActiveTypeAtom);
+  const [paletteColors, setPaletteColors] = useAtom(paletteColorsAtom);
+  const paletteActiveColor = useAtomValue(paletteActiveColorAtom);
+
+  // local to ColorsInput storage for colors
   const [colorValues, setColorValues] = useState({
-    hex: colord(color).toHex(),
-    rgb: colord(color).toRgbString(),
-    hsl: colord(color).toHslString(),
+    hex: colord(sandboxColors[sandboxActiveType]).toHex(),
+    rgb: colord(sandboxColors[sandboxActiveType]).toRgbString(),
+    hsl: colord(sandboxColors[sandboxActiveType]).toHslString(),
     hexError: false,
     rgbError: false,
     hslError: false,
@@ -22,14 +30,14 @@ export default function ColorInputs({
 
   useEffect(() => {
     setColorValues({
-      hex: colord(color).toHex(),
-      rgb: colord(color).toRgbString(),
-      hsl: colord(color).toHslString(),
+      hex: colord(sandboxColors[sandboxActiveType]).toHex(),
+      rgb: colord(sandboxColors[sandboxActiveType]).toRgbString(),
+      hsl: colord(sandboxColors[sandboxActiveType]).toHslString(),
       hexError: false,
       rgbError: false,
       hslError: false,
     });
-  }, [color]);
+  }, [sandboxColors[sandboxActiveType]]);
 
   return (
     <div className="flex flex-col gap-2 pt-0 text-primary-foreground">
@@ -38,7 +46,16 @@ export default function ColorInputs({
         id="hex"
         label="Hex"
         value={colorValues.hex}
-        setColor={setColor}
+        setColor={(hslColor) => {
+          // updatig store color for the shadcn/ui variable to be used in sandbox
+          setSandboxColors({ ...sandboxColors, [sandboxActiveType]: hslColor });
+          // updating palette active color
+          setPaletteColors(
+            paletteColors
+              .slice(0, paletteActiveColor)
+              .concat(hslColor, paletteColors.slice(paletteActiveColor + 1)),
+          );
+        }}
         setColorValue={({ color, error }) =>
           setColorValues((prev) => ({
             ...prev,
@@ -52,7 +69,16 @@ export default function ColorInputs({
         id="rgb"
         label="RGB"
         value={colorValues.rgb}
-        setColor={setColor}
+        setColor={(hslColor) => {
+          // updatig store color for the shadcn/ui variable to be used in sandbox
+          setSandboxColors({ ...sandboxColors, [sandboxActiveType]: hslColor });
+          // updating palette active color
+          setPaletteColors(
+            paletteColors
+              .slice(0, paletteActiveColor)
+              .concat(hslColor, paletteColors.slice(paletteActiveColor + 1)),
+          );
+        }}
         setColorValue={({ color, error }) =>
           setColorValues((prev) => ({
             ...prev,
@@ -66,7 +92,16 @@ export default function ColorInputs({
         id="hsl"
         label="HSL"
         value={colorValues.hsl}
-        setColor={setColor}
+        setColor={(hslColor) => {
+          // updatig store color for the shadcn/ui variable to be used in sandbox
+          setSandboxColors({ ...sandboxColors, [sandboxActiveType]: hslColor });
+          // updating palette active color
+          setPaletteColors(
+            paletteColors
+              .slice(0, paletteActiveColor)
+              .concat(hslColor, paletteColors.slice(paletteActiveColor + 1)),
+          );
+        }}
         setColorValue={({ color, error }) =>
           setColorValues((prev) => ({
             ...prev,

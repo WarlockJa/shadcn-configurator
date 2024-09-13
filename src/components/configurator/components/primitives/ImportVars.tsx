@@ -1,20 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { TColorsState, TComponentTypes, TCssVars } from "../settings";
-import { importMatchSelector } from "../regex";
-import { colord } from "colord";
-
-export default function ImportVars({
-  colors,
-  setColors,
+import {
   cssVars,
-}: {
-  setColors: (newColors: TColorsState) => void;
-  colors: TColorsState;
-  cssVars: TCssVars;
-}) {
+  TColorsState,
+  TComponentTypes,
+  TCssVars,
+} from "../../settings";
+import { importMatchSelector } from "../../regex";
+import { colord } from "colord";
+import { useAtom } from "jotai";
+import { sandboxColorsAtom } from "@/store/jotai";
+
+export default function ImportVars() {
+  // accessing store data
+  const [sandboxColors, setSandboxColors] = useAtom(sandboxColorsAtom);
+
+  // local storage for user input
   const [text, setText] = useState("");
+
   return (
     <div className="flex flex-col">
       <Textarea
@@ -27,8 +31,12 @@ export default function ImportVars({
       />
       <Button
         onClick={() =>
-          setColors(
-            parseStringToTColorState({ colors, text, lookupTable: cssVars }),
+          setSandboxColors(
+            parseStringToTColorState({
+              colors: sandboxColors,
+              text,
+              lookupTable: cssVars,
+            }),
           )
         }
         className="rounded-t-none"

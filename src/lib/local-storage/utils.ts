@@ -1,11 +1,11 @@
-import { schemaIColorState } from "@/components/configurator/schema";
-import { IColorState } from "@/components/configurator/settings";
+import { schemaIConfiguratorState } from "@/components/configurator/schema";
+import { IConfiguratorState } from "@/components/configurator/settings";
 
 const localStorageItem = "shadcn-config";
 
-export const getLocalStorageData = (): IColorState | null => {
+export const getLocalStorageData = (): IConfiguratorState | null => {
   try {
-    const data = schemaIColorState.parse(
+    const data = schemaIConfiguratorState.parse(
       // @ts-expect-error localStorage value may be not an object
       JSON.parse(localStorage.getItem(localStorageItem)),
     );
@@ -15,7 +15,7 @@ export const getLocalStorageData = (): IColorState | null => {
   }
 };
 
-export const setLocalStorageData = (data: IColorState | undefined) => {
+export const setLocalStorageData = (data: IConfiguratorState | undefined) => {
   try {
     data && localStorage.setItem(localStorageItem, JSON.stringify(data));
   } catch (error) {
