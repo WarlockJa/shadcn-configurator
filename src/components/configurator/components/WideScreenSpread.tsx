@@ -9,6 +9,7 @@ import VarsButtons from "./VarsButtons";
 import { HslColorPicker } from "react-colorful";
 import ColorInputs from "./ColorInputs";
 import MainDisplay from "./MainDisplay";
+import TWColorPalette from "./TWColorPalette";
 
 export default function WideScreenSpread({
   colorState,
@@ -51,6 +52,18 @@ export default function WideScreenSpread({
             })
           }
         />
+        <div className="mt-2">
+          <PopupWrapper label="TW Palette">
+            <TWColorPalette
+              setColor={(twColor) =>
+                setColorState({
+                  ...colorState,
+                  colors: { ...colorState.colors, [colorState.type]: twColor },
+                })
+              }
+            />
+          </PopupWrapper>
+        </div>
       </FloatingWrapper>
       <FloatingWrapper offsetClass="right-4 bottom-16">
         <div className="flex gap-2">
