@@ -1,7 +1,6 @@
 import React from "react";
 import PopupWrapper from "./wrappers/PopupWrapper";
 import CopyButton from "./primitives/CopyButtons";
-import FloatingWrapper from "./wrappers/FloatingWrapper";
 import VarsButtons from "./primitives/VarsButtons";
 import ColorInputs from "./primitives/ColorInputs";
 import MainDisplay from "./sandbox-parts/MainDisplay";
@@ -10,25 +9,50 @@ import Palette from "./primitives/Palette";
 import HslColorPickerPrmitive from "./primitives/HslColorPickerPrmitive";
 import ExportVars from "./primitives/ExportVars";
 import ImportVars from "./primitives/ImportVars";
+import Draggable from "@/components/dragndrop/Draggable";
+import { useAtomValue } from "jotai";
+import { staticDraggableElementsDataAtom } from "@/store/jotai";
 
 export default function WideScreenSpread() {
+  const staticDraggableElementsData = useAtomValue(
+    staticDraggableElementsDataAtom,
+  );
   return (
     <>
-      <FloatingWrapper offsetClass="left-4 top-4" label="shadcn/ui variables">
+      <Draggable
+        initialOffset={staticDraggableElementsData["sandbox"]}
+        id="sandbox"
+        role="sandbox"
+      >
+        <MainDisplay />
+      </Draggable>
+      <Draggable
+        initialOffset={staticDraggableElementsData["shadcn/ui variables"]}
+        id="shadcn/ui variables"
+        role="shadcn/ui variables"
+      >
         <div className="flex h-fit flex-col">
           <VarsButtons />
         </div>
-      </FloatingWrapper>
-      <FloatingWrapper offsetClass="right-4 top-4" label="colors">
-        <HslColorPickerPrmitive />
-        <ColorInputs />
-        <div className="mt-2">
+      </Draggable>
+      <Draggable
+        initialOffset={staticDraggableElementsData["colors"]}
+        id="colors"
+        role="colors"
+      >
+        <div className="flex flex-col gap-2">
+          <HslColorPickerPrmitive />
+          <ColorInputs />
           <PopupWrapper label="TW Palette">
             <TWColorPalette />
           </PopupWrapper>
         </div>
-      </FloatingWrapper>
-      <FloatingWrapper offsetClass="right-4 bottom-16" label="import/export">
+      </Draggable>
+      <Draggable
+        initialOffset={staticDraggableElementsData["import/export"]}
+        id="import/export"
+        role="import/export"
+      >
         <div className="flex gap-2">
           <PopupWrapper label="Import Vars">
             <ImportVars />
@@ -40,13 +64,15 @@ export default function WideScreenSpread() {
             </div>
           </PopupWrapper>
         </div>
-      </FloatingWrapper>
-      <FloatingWrapper offsetClass="left-96 top-4" label="sandbox">
-        <MainDisplay />
-      </FloatingWrapper>
-      <FloatingWrapper offsetClass="right-4 bottom-40" label="palette">
+      </Draggable>
+
+      <Draggable
+        initialOffset={staticDraggableElementsData["palette"]}
+        id="palette"
+        role="palette"
+      >
         <Palette />
-      </FloatingWrapper>
+      </Draggable>
     </>
   );
 }

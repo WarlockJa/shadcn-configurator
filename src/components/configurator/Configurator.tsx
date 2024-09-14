@@ -1,5 +1,6 @@
 "use client";
 
+import { DndContext } from "@dnd-kit/core";
 import WideScreenSpread from "./components/WideScreenSpread";
 import MainDisplay from "./components/sandbox-parts/MainDisplay";
 import useConfigurator from "./hooks/useConfigurator";
@@ -9,14 +10,16 @@ export default function Configurator() {
 
   return (
     initComplete && (
-      <div className="relative flex w-screen flex-1 items-center justify-center">
-        <div className="hidden 2xl:block">
-          <WideScreenSpread />
+      <DndContext>
+        <div className="relative flex w-screen flex-1 items-center justify-center">
+          <div className="hidden 2xl:block">
+            <WideScreenSpread />
+          </div>
+          <div className="2xl:hidden">
+            <MainDisplay />
+          </div>
         </div>
-        <div className="2xl:hidden">
-          <MainDisplay />
-        </div>
-      </div>
+      </DndContext>
     )
   );
 }

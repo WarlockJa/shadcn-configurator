@@ -35,7 +35,7 @@ export default function HslColorPickerPrmitive() {
   return (
     <HslColorPicker
       color={debouncedColorValue[sandboxActiveType]}
-      style={{ width: "300px", height: "300px", marginBottom: "1em" }}
+      style={{ width: "300px", height: "300px" }}
       className="z-30"
       onChange={handleColorChange}
     />

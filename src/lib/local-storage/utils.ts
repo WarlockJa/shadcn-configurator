@@ -9,6 +9,7 @@ export const getLocalStorageData = (): IConfiguratorState | null => {
       // @ts-expect-error localStorage value may be not an object
       JSON.parse(localStorage.getItem(localStorageItem)),
     );
+    console.log(data.draggableElementsData);
     return data;
   } catch (error) {
     return null;

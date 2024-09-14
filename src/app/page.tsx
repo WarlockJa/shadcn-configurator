@@ -5,7 +5,7 @@ export const runtime = "edge";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-600">
+    <main className="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-600">
       <InfoPanel />
       <Configurator />
     </main>

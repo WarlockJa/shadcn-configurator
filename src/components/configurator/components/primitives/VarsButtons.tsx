@@ -53,11 +53,9 @@ export default function VarsButtons() {
             ></div>
             {/* copy/paste buttons */}
             {item[0] === sandboxActiveType && (
-              <div className="absolute right-0 top-0 bg-slate-600">
-                <Button
-                  className="h-0 w-5"
-                  variant={"ghost"}
-                  size={"icon"}
+              <div className="absolute right-0 top-0 flex bg-slate-600">
+                <div
+                  className="w-4"
                   title="from palette"
                   onClick={() =>
                     // copying color from the palette
@@ -67,13 +65,11 @@ export default function VarsButtons() {
                     })
                   }
                 >
-                  <ClipboardCopy className="m-0" />
-                </Button>
+                  <ClipboardCopy className="h-fit w-full" />
+                </div>
 
-                <Button
-                  className="h-0 w-5"
-                  variant={"ghost"}
-                  size={"icon"}
+                <div
+                  className="w-4"
                   title="reset"
                   onClick={() =>
                     // resetting color to the initial value from first select
@@ -83,12 +79,10 @@ export default function VarsButtons() {
                     })
                   }
                 >
-                  <ClipboardX />
-                </Button>
-                <Button
-                  className="h-0 w-5"
-                  variant={"ghost"}
-                  size={"icon"}
+                  <ClipboardX className="h-fit w-full" />
+                </div>
+                <div
+                  className="w-4"
                   title="to palette"
                   onClick={() =>
                     // updating palette active color
@@ -102,8 +96,8 @@ export default function VarsButtons() {
                     )
                   }
                 >
-                  <ClipboardPaste />
-                </Button>
+                  <ClipboardPaste className="h-fit w-full" />
+                </div>
               </div>
             )}
             {/* shadcn/ui variable description */}

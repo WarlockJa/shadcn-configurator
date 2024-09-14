@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function InfoPanel() {
   return (
-    <div className="flex w-full flex-col items-center justify-between bg-gradient-to-r from-slate-600 to-cyan-950 p-4 md:flex-row">
+    <div className="flex w-full flex-col items-center justify-between bg-gradient-to-r from-slate-600 from-10% to-cyan-950 p-4 md:flex-row">
       <h1 className="font-mono text-3xl text-slate-200">shadcn-config</h1>
       <div className="flex items-center md:gap-2">
         <Popover>

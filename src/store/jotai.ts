@@ -1,4 +1,5 @@
 import {
+  defaultDraggableElementsData,
   defaultSandboxActiveType,
   defaultSandboxColors,
   paletteSize,
@@ -13,8 +14,15 @@ export const sandboxColorsAtom = atom<TColorsState>(defaultSandboxColors);
 export const sandboxActiveTypeAtom = atom<TComponentTypes>(
   defaultSandboxActiveType,
 );
+
 // palette values
 export const paletteColorsAtom = atom<HslColor[]>(
   Array(paletteSize).fill({ h: 0, s: 0, l: 100 }),
 );
 export const paletteActiveColorAtom = atom<number>(0);
+
+// elements positions
+export const draggableElementsDataAtom = atom(defaultDraggableElementsData);
+export const staticDraggableElementsDataAtom = atom(
+  defaultDraggableElementsData,
+);

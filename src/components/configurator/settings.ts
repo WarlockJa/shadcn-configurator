@@ -6,6 +6,7 @@
 // Step 2: add camelCase code and give it actual css variable name value
 
 import { HslColor } from "react-colorful";
+import { Transform } from "@dnd-kit/utilities";
 
 export const cssVars = {
   background: "--background",
@@ -39,6 +40,7 @@ export interface IConfiguratorState {
   colors: TColorsState;
   paletteColors: HslColor[];
   paletteActiveColor: number;
+  draggableElementsData: TDraggableElementPosition;
 }
 
 // default values for the jotai store
@@ -64,3 +66,20 @@ export const defaultSandboxColors: TColorsState = {
   ring: { h: 0, s: 0, l: 3.9 },
 };
 export const defaultSandboxActiveType: TComponentTypes = "background";
+
+// default draggable elements values
+export type TDraggableElements =
+  | "sandbox"
+  | "shadcn/ui variables"
+  | "colors"
+  | "import/export"
+  | "palette";
+
+export type TDraggableElementPosition = Record<TDraggableElements, Transform>;
+export const defaultDraggableElementsData: TDraggableElementPosition = {
+  sandbox: { x: 100, y: 40, scaleX: 0, scaleY: 0 },
+  "shadcn/ui variables": { x: 2, y: 10, scaleX: 0, scaleY: 0 },
+  colors: { x: 480, y: 10, scaleX: 0, scaleY: 0 },
+  "import/export": { x: 200, y: 10, scaleX: 0, scaleY: 0 },
+  palette: { x: 120, y: 10, scaleX: 0, scaleY: 0 },
+};
