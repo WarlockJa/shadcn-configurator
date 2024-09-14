@@ -4,7 +4,7 @@ import { Transform } from "@dnd-kit/utilities";
 import useOffset from "./hooks/useOffset";
 import { Button } from "../ui/button";
 import { Pin, PinOff } from "lucide-react";
-import { TDraggableElements } from "../configurator/settings";
+// import { TDraggableElements } from "../configurator/settings";
 
 export default function Draggable({
   children,
@@ -32,7 +32,8 @@ export default function Draggable({
     });
 
   // reading transformation style for the draggable element
-  const style = useOffset(transform, initialOffset, id as TDraggableElements);
+  // const style = useOffset(transform, initialOffset, id as TDraggableElements);
+  const style = useOffset(transform, initialOffset);
 
   return (
     <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { TDraggableElements } from "@/components/configurator/settings";
+// import { TDraggableElements } from "@/components/configurator/settings";
 // import { draggableElementsDataAtom } from "@/store/jotai";
 import { CSS, Transform } from "@dnd-kit/utilities";
 // import { useAtom } from "jotai";
@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 export default function useOffset(
   transform: Transform | null,
   initialOffset: Transform,
-  id: TDraggableElements,
+  // id: TDraggableElements,
 ) {
   const [offset, setOffset] = useState<{
     current: Transform;

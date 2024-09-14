@@ -14,6 +14,7 @@ A web application for dynamically exploring and visualizing [Shadcn/UI](https://
 - [Shadcn/UI](https://ui.shadcn.com/)
 - [Tailwind](https://tailwindcss.com/)
 - [Jotai](https://jotai.org/)
+- [dnd-kit](https://dndkit.com/)
 
 ## License
 
