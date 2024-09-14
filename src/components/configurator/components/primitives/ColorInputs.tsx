@@ -11,6 +11,8 @@ import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { HslColor } from "react-colorful";
 
+type TInputIds = "rgb" | "hsl" | "hex";
+
 export default function ColorInputs() {
   // accessing store data
   const [sandboxColors, setSandboxColors] = useAtom(sandboxColorsAtom);
@@ -18,6 +20,8 @@ export default function ColorInputs() {
   const [paletteColors, setPaletteColors] = useAtom(paletteColorsAtom);
   const paletteActiveColor = useAtomValue(paletteActiveColorAtom);
 
+  // currently active input field tracker, to avoid rerenders during edit
+  const [activeInput, setActiveInput] = useState<TInputIds | undefined>();
   // local to ColorsInput storage for colors
   const [colorValues, setColorValues] = useState({
     hex: colord(sandboxColors[sandboxActiveType]).toHex(),
@@ -30,9 +34,18 @@ export default function ColorInputs() {
 
   useEffect(() => {
     setColorValues({
-      hex: colord(sandboxColors[sandboxActiveType]).toHex(),
-      rgb: colord(sandboxColors[sandboxActiveType]).toRgbString(),
-      hsl: colord(sandboxColors[sandboxActiveType]).toHslString(),
+      hex:
+        activeInput === "hex"
+          ? colorValues.hex
+          : colord(sandboxColors[sandboxActiveType]).toHex(),
+      rgb:
+        activeInput === "rgb"
+          ? colorValues.rgb
+          : colord(sandboxColors[sandboxActiveType]).toRgbString(),
+      hsl:
+        activeInput === "hsl"
+          ? colorValues.hsl
+          : colord(sandboxColors[sandboxActiveType]).toHslString(),
       hexError: false,
       rgbError: false,
       hslError: false,
@@ -63,6 +76,7 @@ export default function ColorInputs() {
             hexError: error,
           }))
         }
+        setActiveInput={setActiveInput}
       />
       <ColorInput
         error={colorValues.rgbError}
@@ -86,6 +100,7 @@ export default function ColorInputs() {
             rgbError: error,
           }))
         }
+        setActiveInput={setActiveInput}
       />
       <ColorInput
         error={colorValues.hslError}
@@ -109,6 +124,7 @@ export default function ColorInputs() {
             hslError: error,
           }))
         }
+        setActiveInput={setActiveInput}
       />
     </div>
   );
@@ -121,13 +137,15 @@ const ColorInput = ({
   setColor,
   setColorValue,
   value,
+  setActiveInput,
 }: {
   label: string;
-  id: string;
+  id: TInputIds;
   value: string;
   error: boolean;
   setColor: (color: HslColor) => void;
   setColorValue: ({ color, error }: { color: string; error: boolean }) => void;
+  setActiveInput: (newActiveInput: TInputIds | undefined) => void;
 }) => {
   return (
     <div className="relative">
@@ -165,6 +183,8 @@ const ColorInput = ({
             });
           }
         }}
+        onFocus={() => setActiveInput(id)}
+        onBlur={() => setActiveInput(undefined)}
       />
     </div>
   );
