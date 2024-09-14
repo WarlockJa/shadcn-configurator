@@ -77,9 +77,9 @@ export type TDraggableElements =
 
 export type TDraggableElementPosition = Record<TDraggableElements, Transform>;
 export const defaultDraggableElementsData: TDraggableElementPosition = {
-  sandbox: { x: 100, y: 40, scaleX: 0, scaleY: 0 },
+  sandbox: { x: 140, y: 60, scaleX: 0, scaleY: 0 },
   "shadcn/ui variables": { x: 2, y: 10, scaleX: 0, scaleY: 0 },
-  colors: { x: 480, y: 10, scaleX: 0, scaleY: 0 },
-  "import/export": { x: 200, y: 10, scaleX: 0, scaleY: 0 },
-  palette: { x: 120, y: 10, scaleX: 0, scaleY: 0 },
+  colors: { x: 700, y: 10, scaleX: 0, scaleY: 0 },
+  "import/export": { x: 300, y: 10, scaleX: 0, scaleY: 0 },
+  palette: { x: 160, y: 10, scaleX: 0, scaleY: 0 },
 };
