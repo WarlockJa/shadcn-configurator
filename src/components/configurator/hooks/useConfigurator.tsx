@@ -8,8 +8,9 @@ import {
   paletteColorsAtom,
   sandboxActiveTypeAtom,
   sandboxColorsAtom,
+  staticDraggableElementsDataAtom,
 } from "@/store/jotai";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import configuratorInit from "../utils/configuratorInit";
 import { cssVars } from "../settings";
@@ -26,13 +27,13 @@ export default function useConfigurator() {
   const [paletteActiveColor, setPaletteActiveColor] = useAtom(
     paletteActiveColorAtom,
   );
-  const draggableElementsData = useAtomValue(draggableElementsDataAtom);
-  // const [draggableElementsData, setDraggableElementsData] = useAtom(
-  //   draggableElementsDataAtom,
-  // );
-  // const setStaticDraggableElementsData = useSetAtom(
-  //   staticDraggableElementsDataAtom,
-  // );
+  // const draggableElementsData = useAtomValue(draggableElementsDataAtom);
+  const [draggableElementsData, setDraggableElementsData] = useAtom(
+    draggableElementsDataAtom,
+  );
+  const setStaticDraggableElementsData = useSetAtom(
+    staticDraggableElementsDataAtom,
+  );
 
   // initialisation
   useEffect(() => {
@@ -44,9 +45,9 @@ export default function useConfigurator() {
       setSandboxActiveType(data.type);
       setPaletteColors(data.paletteColors);
       setPaletteActiveColor(data.paletteActiveColor);
-      //
-      // setDraggableElementsData(data.draggableElementsData);
-      // setStaticDraggableElementsData(data.draggableElementsData);
+
+      setDraggableElementsData(data.draggableElementsData);
+      setStaticDraggableElementsData(data.draggableElementsData);
     } else {
       // generating default values
       const { type, colors } = configuratorInit({ cssVars });
