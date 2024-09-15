@@ -14,7 +14,10 @@ export default function useOffset(
   const [offset, setOffset] = useState<{
     current: Transform;
     previous: Transform;
-  }>({ current: initialOffset, previous: initialOffset });
+  }>({
+    current: { x: 0, y: 0, scaleX: 1, scaleY: 1 },
+    previous: initialOffset,
+  });
   // store data
   const [draggableElementsData, setDraggableElementsData] = useAtom(
     draggableElementsDataAtom,
@@ -31,7 +34,7 @@ export default function useOffset(
 
       setDraggableElementsData({
         ...draggableElementsData,
-        [id]: combineTransforms(offset.current, offset.previous, true),
+        [id]: combineTransforms(offset.current, offset.previous),
       });
     }
   }, [transform]);
@@ -54,19 +57,11 @@ export default function useOffset(
 const combineTransforms = (
   transform1: Transform,
   transform2: Transform,
-  divide?: boolean,
 ): Transform => {
-  return divide
-    ? {
-        x: transform1.x / 2 + transform2.x / 2,
-        y: transform1.y / 2 + transform2.y / 2,
-        scaleY: 1,
-        scaleX: 1,
-      }
-    : {
-        x: transform1.x + transform2.x,
-        y: transform1.y + transform2.y,
-        scaleY: 1,
-        scaleX: 1,
-      };
+  return {
+    x: transform1.x + transform2.x,
+    y: transform1.y + transform2.y,
+    scaleY: 1,
+    scaleX: 1,
+  };
 };
