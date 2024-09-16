@@ -46,5 +46,8 @@ const defaultCardStyles = ({ colors }: { colors: TColorsState }) => {
   return {
     backgroundColor: hslColorObjectToActualColor({ hslColor: colors["card"] }),
     color: hslColorObjectToActualColor({ hslColor: colors["cardForeground"] }),
+    border: `1px solid ${hslColorObjectToActualColor({
+      hslColor: colors["border"],
+    })}`,
   };
 };
