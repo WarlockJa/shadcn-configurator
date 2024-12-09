@@ -24,14 +24,14 @@ export const metadata: Metadata = {
       "Generate shadcn/ui variables on the fly! A web application for dynamic exploration and visualization of shadcn/ui's tailwind variables.",
     url: "https://shadcn-config.com",
     siteName: "Shadcn Configurator",
-    images: "https://warlockja.com/images/shadcn-config.webp",
+    // images: "https://warlockja.com/images/shadcn-config.webp",
   },
   twitter: {
     card: "summary_large_image",
     title: "Shadcn-Configurator",
     description:
       "Generate shadcn/ui variables on the fly! A web application for dynamic exploration and visualization of shadcn/ui's tailwind variables.",
-    images: "https://warlockja.com/images/shadcn-config.webp",
+    // images: "https://warlockja.com/images/shadcn-config.webp",
     site: "@RomanStepa49093",
     creator: "@RomanStepa49093",
   },
