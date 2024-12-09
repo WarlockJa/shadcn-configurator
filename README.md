@@ -1,6 +1,6 @@
 # Shadcn UI Configurator
 
-A web application for dynamically exploring and visualizing [Shadcn/UI](https://ui.shadcn.com/)'s design system variables. Try the [live version](https://shadcn-config.com/) now!
+A web application for dynamic exploration and visualization of [Shadcn/UI](https://ui.shadcn.com/)'s design system variables. Try the [live version](https://shadcn-config.com/) now!
 
 ## Features
 
