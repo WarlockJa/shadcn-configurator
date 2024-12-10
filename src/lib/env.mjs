@@ -9,11 +9,6 @@ export const env = createEnv({
    */
   server: {
     SMTP_URI: z.string().min(1),
-    SMTP_USER: z.string().min(1),
-    SMTP_PASSWORD: z.string().min(1),
-    SMTP_HOST: z.string().min(1),
-    SMTP_PORT: z.string().min(1),
-    SMTP_FROM: z.string().min(1),
     SMTP_API_KEY: z.string().min(1),
   },
   /*
@@ -21,7 +16,9 @@ export const env = createEnv({
    *
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
-  client: {},
+  client: {
+    NEXT_PUBLIC_URI: z.string().url(),
+  },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
    * we need to manually destructure them to make sure all are included in bundle.
@@ -30,11 +27,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     SMTP_URI: process.env.SMTP_URI,
-    SMTP_USER: process.env.SMTP_USER,
-    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
-    SMTP_HOST: process.env.SMTP_HOST,
-    SMTP_PORT: process.env.SMTP_PORT,
-    SMTP_FROM: process.env.SMTP_FROM,
     SMTP_API_KEY: process.env.SMTP_API_KEY,
+    NEXT_PUBLIC_URI: process.env.NEXT_PUBLIC_URI,
   },
 });
