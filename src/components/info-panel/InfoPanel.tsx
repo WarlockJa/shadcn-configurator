@@ -2,16 +2,28 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import GitHubIcon from "../icons/GitHubIcon";
 import BuyMeCoffee from "../icons/BuyMeCoffee";
-import { Mail } from "lucide-react";
+import { HelpCircle, Mail } from "lucide-react";
 import FeedbackForm from "../feedback/FeedbackForm";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ResetUIPositions from "../configurator/components/ResetUIPositions";
+import HelpPanel from "../configurator/components/sandbox-parts/HelpPanel";
 
 export default function InfoPanel() {
   return (
     <div className="flex w-full flex-col items-center justify-between bg-gradient-to-r from-slate-600 from-10% to-cyan-950 p-4 md:flex-row">
       <h1 className="font-mono text-3xl text-slate-200">shadcn-config</h1>
       <div className="flex items-center md:gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant={"link"} className="text-slate-200">
+              <HelpCircle className="h-6 w-6" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-fit bg-gradient-to-b from-slate-600 to-stone-600 text-primary-foreground">
+            <HelpPanel />
+          </PopoverContent>
+        </Popover>
+
         <div className="hidden 2xl:block">
           <ResetUIPositions />
         </div>

@@ -55,7 +55,7 @@ export default function VarsButtons() {
               <div className="absolute right-0 top-0 flex bg-slate-600">
                 <div
                   className="w-4"
-                  title="from palette"
+                  title="from palette: Ctrl+C"
                   onClick={(e) => {
                     e.stopPropagation();
                     // copying color from the palette
@@ -70,7 +70,7 @@ export default function VarsButtons() {
 
                 <div
                   className="w-4"
-                  title="reset"
+                  title="reset: Ctrl+X"
                   onClick={(e) => {
                     e.stopPropagation();
                     // resetting color to the initial value(if exists) from first select
@@ -85,7 +85,7 @@ export default function VarsButtons() {
                 </div>
                 <div
                   className="w-4"
-                  title="to palette"
+                  title="to palette: Ctrl+V"
                   onClick={(e) => {
                     e.stopPropagation();
                     // updating palette active color
