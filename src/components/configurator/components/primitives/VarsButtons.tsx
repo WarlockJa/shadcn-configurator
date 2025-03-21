@@ -72,7 +72,8 @@ export default function VarsButtons() {
                   className="w-4"
                   title="reset"
                   onClick={() =>
-                    // resetting color to the initial value from first select
+                    // resetting color to the initial value(if exists) from first select
+                    resetColor &&
                     setSandboxColors({
                       ...sandboxColors,
                       [sandboxActiveType]: resetColor,

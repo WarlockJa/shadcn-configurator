@@ -60,7 +60,7 @@ export default function ColorInputs() {
         label="Hex"
         value={colorValues.hex}
         setColor={(hslColor) => {
-          // updatig store color for the shadcn/ui variable to be used in sandbox
+          // updating store color for the shadcn/ui variable to be used in sandbox
           setSandboxColors({ ...sandboxColors, [sandboxActiveType]: hslColor });
           // updating palette active color
           setPaletteColors(
