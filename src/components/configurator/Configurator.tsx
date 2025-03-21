@@ -4,9 +4,12 @@ import { DndContext } from "@dnd-kit/core";
 import WideScreenSpread from "./components/WideScreenSpread";
 import MainDisplay from "./components/sandbox-parts/MainDisplay";
 import useConfigurator from "./hooks/useConfigurator";
+import useHotKeys from "./hooks/useHotKeys";
 
 export default function Configurator() {
   const initComplete = useConfigurator();
+  // hook for catching and processing hotkey presses
+  useHotKeys();
 
   return (
     initComplete && (

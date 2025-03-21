@@ -7,12 +7,11 @@ import { useAtom, useAtomValue } from "jotai";
 import {
   paletteActiveColorAtom,
   paletteColorsAtom,
+  resetColorAtom,
   sandboxActiveTypeAtom,
   sandboxColorsAtom,
 } from "@/store/jotai";
 import { ClipboardCopy, ClipboardPaste, ClipboardX } from "lucide-react";
-import { useState } from "react";
-import { HslColor } from "react-colorful";
 
 export default function VarsButtons() {
   // accessing store data
@@ -23,7 +22,7 @@ export default function VarsButtons() {
   const [paletteColors, setPaletteColors] = useAtom(paletteColorsAtom);
   const paletteActiveColor = useAtomValue(paletteActiveColorAtom);
   // reset value
-  const [resetColor, setResetColor] = useState<HslColor>();
+  const [resetColor, setResetColor] = useAtom(resetColorAtom);
 
   return (
     <>
@@ -57,13 +56,14 @@ export default function VarsButtons() {
                 <div
                   className="w-4"
                   title="from palette"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     // copying color from the palette
                     setSandboxColors({
                       ...sandboxColors,
                       [sandboxActiveType]: paletteColors[paletteActiveColor],
-                    })
-                  }
+                    });
+                  }}
                 >
                   <ClipboardCopy className="h-fit w-full" />
                 </div>
@@ -71,31 +71,32 @@ export default function VarsButtons() {
                 <div
                   className="w-4"
                   title="reset"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     // resetting color to the initial value(if exists) from first select
                     resetColor &&
-                    setSandboxColors({
-                      ...sandboxColors,
-                      [sandboxActiveType]: resetColor,
-                    })
-                  }
+                      setSandboxColors({
+                        ...sandboxColors,
+                        [sandboxActiveType]: resetColor,
+                      });
+                  }}
                 >
                   <ClipboardX className="h-fit w-full" />
                 </div>
                 <div
                   className="w-4"
                   title="to palette"
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     // updating palette active color
                     setPaletteColors(
-                      paletteColors
-                        .slice(0, paletteActiveColor)
-                        .concat(
-                          sandboxColors[sandboxActiveType],
-                          paletteColors.slice(paletteActiveColor + 1),
-                        ),
-                    )
-                  }
+                      paletteColors.map((color, idx) =>
+                        idx === paletteActiveColor
+                          ? sandboxColors[sandboxActiveType]
+                          : color,
+                      ),
+                    );
+                  }}
                 >
                   <ClipboardPaste className="h-fit w-full" />
                 </div>

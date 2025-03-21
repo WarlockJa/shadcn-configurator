@@ -6,6 +6,7 @@ import {
   draggableElementsDataAtom,
   paletteActiveColorAtom,
   paletteColorsAtom,
+  resetColorAtom,
   sandboxActiveTypeAtom,
   sandboxColorsAtom,
   staticDraggableElementsDataAtom,
@@ -27,6 +28,7 @@ export default function useConfigurator() {
   const [paletteActiveColor, setPaletteActiveColor] = useAtom(
     paletteActiveColorAtom,
   );
+  const setResetColor = useSetAtom(resetColorAtom);
   // const draggableElementsData = useAtomValue(draggableElementsDataAtom);
   const [draggableElementsData, setDraggableElementsData] = useAtom(
     draggableElementsDataAtom,
@@ -45,6 +47,7 @@ export default function useConfigurator() {
       setSandboxActiveType(data.type);
       setPaletteColors(data.paletteColors);
       setPaletteActiveColor(data.paletteActiveColor);
+      setResetColor(data.colors[data.type]);
 
       setDraggableElementsData(data.draggableElementsData);
       setStaticDraggableElementsData(data.draggableElementsData);
@@ -53,6 +56,7 @@ export default function useConfigurator() {
       const { type, colors } = configuratorInit({ cssVars });
       setSandboxColors(colors);
       setSandboxActiveType(type);
+      setResetColor(colors[type]);
       // not generating default values for the palette and draggable positions
       // because they are already set as default in jotai store
     }
