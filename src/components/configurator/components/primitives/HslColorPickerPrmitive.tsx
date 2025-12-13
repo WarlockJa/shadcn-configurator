@@ -19,7 +19,7 @@ export default function HslColorPickerPrmitive() {
   const debouncedColorValue = useDebounce(sandboxColors, 500);
 
   const handleColorChange = (hslColor: HslColor) => {
-    // updatig store color for the shadcn/ui variable to be used in sandbox
+    // updating store color for the shadcn/ui variable to be used in sandbox
     setSandboxColors({
       ...sandboxColors,
       [sandboxActiveType]: hslColor,

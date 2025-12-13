@@ -10,8 +10,12 @@ import { colord } from "colord";
 import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { HslColor } from "react-colorful";
+import {
+  convertHslToOklch,
+  parseOklchStringToHsl,
+} from "../../utils/oklchConverters";
 
-type TInputIds = "rgb" | "hsl" | "hex";
+type TInputIds = "rgb" | "hsl" | "hex" | "oklch";
 
 export default function ColorInputs() {
   // accessing store data
@@ -27,9 +31,11 @@ export default function ColorInputs() {
     hex: colord(sandboxColors[sandboxActiveType]).toHex(),
     rgb: colord(sandboxColors[sandboxActiveType]).toRgbString(),
     hsl: colord(sandboxColors[sandboxActiveType]).toHslString(),
+    oklch: convertHslToOklch(sandboxColors[sandboxActiveType]),
     hexError: false,
     rgbError: false,
     hslError: false,
+    oklchError: false,
   });
 
   useEffect(() => {
@@ -46,9 +52,14 @@ export default function ColorInputs() {
         activeInput === "hsl"
           ? colorValues.hsl
           : colord(sandboxColors[sandboxActiveType]).toHslString(),
+      oklch:
+        activeInput === "oklch"
+          ? colorValues.oklch
+          : convertHslToOklch(sandboxColors[sandboxActiveType]),
       hexError: false,
       rgbError: false,
       hslError: false,
+      oklchError: false,
     });
   }, [sandboxColors[sandboxActiveType]]);
 
@@ -126,6 +137,30 @@ export default function ColorInputs() {
         }
         setActiveInput={setActiveInput}
       />
+      <ColorInput
+        error={colorValues.oklchError}
+        id="oklch"
+        label="OKLCH"
+        value={colorValues.oklch}
+        setColor={(hslColor) => {
+          // updatig store color for the shadcn/ui variable to be used in sandbox
+          setSandboxColors({ ...sandboxColors, [sandboxActiveType]: hslColor });
+          // updating palette active color
+          setPaletteColors(
+            paletteColors
+              .slice(0, paletteActiveColor)
+              .concat(hslColor, paletteColors.slice(paletteActiveColor + 1)),
+          );
+        }}
+        setColorValue={({ color, error }) =>
+          setColorValues((prev) => ({
+            ...prev,
+            oklch: color,
+            oklchError: error,
+          }))
+        }
+        setActiveInput={setActiveInput}
+      />
     </div>
   );
 }
@@ -169,18 +204,34 @@ const ColorInput = ({
             : undefined
         }
         onChange={(e) => {
-          if (colord(e.currentTarget.value).isValid()) {
-            setColorValue({
-              color: e.target.value,
-              error: false,
-            });
-
-            setColor(colord(e.currentTarget.value).toHsl());
+          if (id === "oklch") {
+            const hsl = parseOklchStringToHsl(e.target.value);
+            if (hsl) {
+              setColor(hsl);
+              setColorValue({
+                error: false,
+                color: e.target.value,
+              });
+            } else {
+              setColorValue({
+                error: true,
+                color: e.target.value,
+              });
+            }
           } else {
-            setColorValue({
-              error: true,
-              color: e.target.value,
-            });
+            if (colord(e.currentTarget.value).isValid()) {
+              setColorValue({
+                color: e.target.value,
+                error: false,
+              });
+
+              setColor(colord(e.currentTarget.value).toHsl());
+            } else {
+              setColorValue({
+                error: true,
+                color: e.target.value,
+              });
+            }
           }
         }}
         onFocus={() => setActiveInput(id)}
